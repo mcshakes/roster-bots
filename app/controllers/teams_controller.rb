@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :authorize_request, except: :create
+  before_action :authenticate_request, except: :create
 
 	def create
 		@team = Team.new(team_params)

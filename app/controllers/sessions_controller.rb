@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
 	# POST /login
 	def create
-		puts params
 		command = AuthenticateTeam.call(params[:email], params[:password])
 
 		if command.success?
