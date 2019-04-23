@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'teams/new'
+  resources :teams
   
   post "/login", to: "sessions#create"
 end

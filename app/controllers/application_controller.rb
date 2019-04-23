@@ -1,35 +1,12 @@
 class ApplicationController < ActionController::API
-	before_action :authenticate
-
-	def logged_in?
-		!!current_team
-	end
-
-	def current_team
-		if auth_present?
-			team = Team.find(auth["team"])
-			if team
-				@current_team ||= team
-			end
-		end
-	end
-
-	def authenticate
-		render json: { error: "unaothorized" }, status: 401 unless logged_in?		
-	end
+	before_action :authenticate_request
+	attr_reader :current_team
 
 private
-
 	
-	def token
-		request.env["HTTP_AUTHORIZATION"].scan(/Bearer(.*)$/).flatten.last
-	end	
-
-	def auth
-		JsonWebToken.decode(token)
+	def authenticate_request
+		@current_team = AuthorizeApiRequest.call(request.headers).result
+		render json: { error: 'Not Authorized' }, status: 401 unless @current_team
 	end
 
-	def auth_present?
-		!!request.env.fetch("HTTP_AUTHORIZATION", "").scan(/Bearer/).flatten.first
-	end
 end

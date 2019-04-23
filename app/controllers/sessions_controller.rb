@@ -1,22 +1,19 @@
 class SessionsController < ApplicationController
-	skip_before_action :authenticate
+	skip_before_action :authenticate_request
 
 	# POST /login
 	def create
-		team_manager = Team.find_by(email: params[:email])
+		puts params
+		command = AuthenticateTeam.call(params[:email], params[:password])
 
-		if team_manager.authenticate(params[:password])
-			jwt = JsonWebToken.issue({ team: team.id })
-			render json: { jwt: jwt }
+		if command.success?
+			render json: { auth_token: command.result }
 		else
-
+			render json: { error: command.errors }, status: :unauthorized
 		end
 	end
 
 
-	private
 
-	def auth_params
-		params.permit(:email, :password)
-	end
+
 end
