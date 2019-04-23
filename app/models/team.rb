@@ -4,5 +4,6 @@ class Team < ApplicationRecord
 	validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
 	validates_uniqueness_of :email, case_sensitive: false
 
+	has_secure_password
 
 end
