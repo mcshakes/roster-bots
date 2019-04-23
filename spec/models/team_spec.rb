@@ -12,12 +12,18 @@ RSpec.describe Team, type: :model do
 
   it "is invalid without a name" do
   	team_bad = Team.new(name: nil)
-  	expect(Team.new).to_not be_valid
+  	expect(team_bad).to_not be_valid
   end
 
   it "is invalid without an existing email" do
   	team_bad = Team.new(name: "poop", email: "")
-  	expect(Team.new).to_not be_valid
+  	expect(team_bad).to_not be_valid
+  end
+
+  it "is invalid with a duplicate email" do
+  	good_team = Team.create(name: "real team", email: "blueteam_rulez@gmail.com")
+  	team_bad = Team.create(name: "fake team", email: "blueteam_rulez@gmail.com")
+  	expect(team_bad).to_not be_valid
   end
 
   it "in invalid with terribly formatted emails" do
