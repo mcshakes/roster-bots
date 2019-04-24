@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import { SignUpLink } from '../SignUp';
 
@@ -24,12 +25,25 @@ class LoginForm extends React.Component {
 	}
 
 	onSubmit = event => {
+		const { email, password} = this.state;
+
+		axios.post("/login", { 
+											email: email,
+											password: password
+		})
+		.then(newUser => {
+			this.setState({ ...INITIAL_STATE });
+			// console.log(newUser.data.auth_token)
+		})
+		.catch(error => {
+			this.setState({ error });
+		})
 
 		event.preventDefault();
 	}
 
 	onChange = event => {
-		this.setState({ [event.target.name]: event.target.valeu })
+		this.setState({ [event.target.name]: event.target.value })
 	}
 
 	render() {
