@@ -15,8 +15,9 @@ ActiveRecord::Schema.define(version: 2019_04_24_225111) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "players", force: :cascade do |t|
+  create_table "players", id: false, force: :cascade do |t|
     t.bigint "roster_id"
+    t.string "uuid", null: false
     t.string "name"
     t.integer "speed"
     t.integer "strength"
@@ -24,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_225111) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["roster_id"], name: "index_players_on_roster_id"
+    t.index ["uuid"], name: "index_players_on_uuid", unique: true
   end
 
   create_table "rosters", force: :cascade do |t|
