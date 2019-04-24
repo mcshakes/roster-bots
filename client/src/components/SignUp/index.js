@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const SignUpPage = () => (
 	<div>
@@ -23,7 +24,21 @@ class SignUpForm extends React.Component {
 	}
 
 	onSubmit = event => {
-
+		const { teamName, email, password} = this.state;
+		
+		axios.post("/teams", { "team": {
+											name: teamName,
+											email: email,
+											password: password
+										}
+		})
+		.then(newUser => {
+			this.setState({ ...INITIAL_STATE });
+		})
+		.catch(error => {
+			this.setState({ error });
+		})
+		event.preventDefault();
 	}
 
 	onChange = event => {
