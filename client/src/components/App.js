@@ -2,7 +2,8 @@ import React from "react";
 import { 
 	BrowserRouter as Router,
 	Route,
-	Switch
+	Switch,
+	Redirect
  } from "react-router-dom";
 
 import SignUpPage from "./SignUp";
@@ -10,6 +11,7 @@ import LogInPage from "./LogIn";
 import Navigation from "./Navigation";
 import LandingPage from "./LandingPage";
 import TeamDashboard from "./TeamDashboard";
+import { AuthProvider } from './AuthContext';
 
 class App extends React.Component {
 
@@ -25,12 +27,11 @@ class App extends React.Component {
 		console.log("App mounted: Refreshing, then authenticating user...")
 
 		const token = localStorage.getItem("token")
-		console.log(token)
+
 		if (token) {
-			this.setState({ authUser: token })
+			this.setState({ authUser: token, isAuth: true  })
 		} else {
-			console.log("User unauthenticated")
-			this.setState({ authUser: token })
+			this.setState({ authUser: token, isAuth: false })
 		}
 	}
 
@@ -39,15 +40,17 @@ class App extends React.Component {
 		return (
 			<div>
 				<Router>
-					<Navigation />
+					<AuthProvider value={this.state}>
+						<Navigation/>
 
-					<hr/>
-					<Switch>
-						<Route exact path="/" component={LandingPage} />
-						<Route path="/login" component={LogInPage} />
-						<Route path="/dashboard" component={TeamDashboard} />
-						<Route path="/sign-up" component={SignUpPage} />
-					</Switch>
+						<hr/>
+						<Switch>
+							<Route exact path="/" component={LandingPage} />
+							<Route path="/login" component={LogInPage} />
+							<Route path="/admin-dashboard" component={TeamDashboard} />
+							<Route path="/sign-up" component={SignUpPage} />
+						</Switch>
+					</AuthProvider>
 				</Router>
 			</div>
 		)

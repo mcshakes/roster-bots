@@ -1,17 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LogOutButton from "./LogOut";
+import { AuthConsumer } from "./AuthContext";
 
-const Navigation = ({ authUser }) => (
-	
-	<div>{authUser ? <NavigationAuthenticated /> : <NavigationNonAuthenticated />}</div>
+const Navigation = () => (
+	<header>
+		<AuthConsumer>
+			{({ isAuth }) => {
+		      console.log(isAuth);
+		      return isAuth ? <NavigationAuthenticated /> : <NavigationNonAuthenticated />
+		      }	
+		    }
+		</AuthConsumer>
+	</header>
 )
 
 const NavigationAuthenticated = () => (
 	<div>
 		<ul>
 			<li>
-				<Link to="/admin-home">Team Dashboard</Link>
+				<Link to="/admin-dashboard">Team Dashboard</Link>
 			</li>
 			<li>
 				<Link to="/">Back to Home</Link>
