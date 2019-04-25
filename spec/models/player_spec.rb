@@ -26,4 +26,10 @@ RSpec.describe Player, type: :model do
 		expect(player_dos.uuid).to be_kind_of(String)
 	end
 
+	it "is invalid with a duplicate name" do
+		good_guy = Player.create(name: "real player", roster_id: roster.id)
+		guy_bad = Player.create(name: "real player", roster_id: roster.id)
+		expect(guy_bad).to_not be_valid
+	end
+
 end
