@@ -31,9 +31,9 @@ class LoginForm extends React.Component {
 											email: email,
 											password: password
 		})
-		.then(newUser => {
-			this.setState({ ...INITIAL_STATE });
-			// console.log(newUser.data.auth_token)
+		.then(res => {
+			this.setState({ ...INITIAL_STATE })
+			localStorage.setItem("token", res.data.auth_token)
 		})
 		.catch(error => {
 			this.setState({ error });
