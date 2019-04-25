@@ -2,6 +2,8 @@ class Player < ApplicationRecord
 	self.primary_key = "uuid"
 	before_save :generate_player_uuid, on: :create
 	belongs_to :roster
+	validates(:name, presence: true)
+	validates_uniqueness_of :name
 
   private
 
