@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
-
+import { Redirect } from "react-router-dom";
 import { SignUpLink } from '../SignUp';
+import { AuthConsumer } from "../AuthContext";
 
 const LogInPage = () => (
 	<div>
@@ -14,7 +15,8 @@ const LogInPage = () => (
 const INITIAL_STATE ={
 	email: "",
 	password: "",
-	error: null
+	error: null,
+	isAuthenticated: false
 }
 
 class LoginForm extends React.Component {
@@ -31,9 +33,10 @@ class LoginForm extends React.Component {
 											email: email,
 											password: password
 		})
-		.then(newUser => {
-			this.setState({ ...INITIAL_STATE });
-			// console.log(newUser.data.auth_token)
+		.then(res => {
+			this.setState({ isAuthenticated: true })
+			localStorage.setItem("token", res.data.auth_token)
+
 		})
 		.catch(error => {
 			this.setState({ error });
@@ -47,31 +50,42 @@ class LoginForm extends React.Component {
 	}
 
 	render() {
-		const { email, password, error } = this.state;
+		const { email, password, error, isAuthenticated } = this.state;
 
 	    const isInvalid = password === '' || email === '';
 
 	    return (
-			<form onSubmit={this.onSubmit}>
-		        <input
-		          name="email"
-		          value={email}
-		          onChange={this.onChange}
-		          type="text"
-		          placeholder="Email Address"
-		        />
-		        <input
-		          name="password"
-		          value={password}
-		          onChange={this.onChange}
-		          type="password"
-		          placeholder="Password"
-		        />
+	    	<AuthConsumer>
+          {
+            ({isAuth})=>{
+              if(isAuth || isAuthenticated){
+                return <Redirect to="/admin-dashboard" />
+              }
+              return (
+                	<form onSubmit={this.onSubmit}>
+		            <input
+                  name="email"
+                  value={email}
+                  onChange={this.onChange}
+                  type="text"
+                  placeholder="Email Address"
+                />
+                <input
+                  name="password"
+                  value={password}
+                  onChange={this.onChange}
+                  type="password"
+                  placeholder="Password"
+                />
 		        
-		        <button disabled={isInvalid} type="submit">Log In</button>
+		            <button disabled={isInvalid} type="submit">Log In</button>
 
-		        {error && <p>{error.message}</p>}
-			</form>
+		            {error && <p>{error.message}</p>}
+			      </form>
+              )
+            }
+          }
+	    	</AuthConsumer>
 	    )
 	}
 }
