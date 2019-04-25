@@ -19,20 +19,15 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			authUser: null
+			isAuth: localStorage.getItem("token") ? true: false 
 		}
 	}
 
-	componentDidMount() {
-		console.log("App mounted: Refreshing, then authenticating user...")
-
-		const token = localStorage.getItem("token")
-
-		if (token) {
-			this.setState({ authUser: token, isAuth: true  })
-		} else {
-			this.setState({ authUser: token, isAuth: false })
-		}
+	setUserAuth = (data) => {
+		localStorage.setItem("token", data.token)
+		this.setState({
+			isAuth: data.isAuth
+		})
 	}
 
 	render() {
@@ -46,7 +41,7 @@ class App extends React.Component {
 						<hr/>
 						<Switch>
 							<Route exact path="/" component={LandingPage} />
-							<Route path="/login" component={LogInPage} />
+							<Route path="/login" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
 							<Route path="/admin-dashboard" component={TeamDashboard} />
 							<Route path="/sign-up" component={SignUpPage} />
 						</Switch>

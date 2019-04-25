@@ -4,10 +4,10 @@ import { Redirect } from "react-router-dom";
 import { SignUpLink } from '../SignUp';
 import { AuthConsumer } from "../AuthContext";
 
-const LogInPage = () => (
+const LogInPage = (props) => (
 	<div>
 		<h1>Log In</h1>
-		<LoginForm />
+		<LoginForm setUserAuth={props.setUserAuth} />
 		<SignUpLink />
 	</div>
 )
@@ -34,8 +34,7 @@ class LoginForm extends React.Component {
 											password: password
 		})
 		.then(res => {
-			this.setState({ isAuthenticated: true })
-			localStorage.setItem("token", res.data.auth_token)
+			this.props.setUserAuth({token: res.data.auth_token , isAuth: true})
 
 		})
 		.catch(error => {
@@ -50,7 +49,7 @@ class LoginForm extends React.Component {
 	}
 
 	render() {
-		const { email, password, error, isAuthenticated } = this.state;
+		const { email, password, error } = this.state;
 
 	    const isInvalid = password === '' || email === '';
 
@@ -58,7 +57,7 @@ class LoginForm extends React.Component {
 	    	<AuthConsumer>
           {
             ({isAuth})=>{
-              if(isAuth || isAuthenticated){
+              if(isAuth){
                 return <Redirect to="/admin-dashboard" />
               }
               return (
