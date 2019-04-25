@@ -7,25 +7,20 @@ class Roster < ApplicationRecord
 	has_many :players
 	accepts_nested_attributes_for :players
 
-	after_create :create_players
-
-	# def starters
-	# 	self.players.select do |player|
-	# 		endplayer if player.status(self) == "Starter"
-	# 	end
-	# end
-
-	# def alternates
-	# 	self.players.select do |player|
-	# 		endplayer if player.status(self) == "Alternate"
-	# 	end
-	# end
+	after_create :create_real_players
+	after_create :create_fantasy_players
 
 	private
 
-	def create_players
-		12.times.each do
+	def create_real_players
+		50.times.each do
 			self.players.create!(name: Faker::Name.name)
+		end
+	end
+
+	def create_fantasy_players
+		50.times.each do
+			self.players.create!(name: Faker::TvShows::GameOfThrones.character)
 		end
 	end
 end
