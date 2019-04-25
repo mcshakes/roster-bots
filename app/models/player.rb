@@ -1,9 +1,15 @@
 class Player < ApplicationRecord
 	self.primary_key = "uuid"
 	before_save :generate_player_uuid, on: :create
-	belongs_to :roster
+	belongs_to :roster,:dependent => :destroy
 	validates(:name, presence: true)
+
+	validates_presence_of :roster
 	validates_uniqueness_of :name
+
+	# def build
+		
+	# end
 
   private
 

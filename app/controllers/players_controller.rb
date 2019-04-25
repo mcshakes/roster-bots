@@ -2,7 +2,7 @@ class RostersController < ApplicationController
   
 	def create
 		@roster = Roster.new(team_params)
-		@players = @roster.players.build
+		@roster.players.build
 	end
 
 private
@@ -11,3 +11,4 @@ private
 		params.require(:roster).permit(:name, :email, :password)
 	end
 end
+
