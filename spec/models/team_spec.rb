@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Team, type: :model do
-  subject { described_class.new(name: "Red Team", email: "redteam_rulez@gmail.com", password: "password1") }
+  subject { described_class.new(name: "Red Team", email: "redz@gmail.com", password: "password1") }
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
