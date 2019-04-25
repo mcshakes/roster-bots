@@ -1,5 +1,7 @@
 class Roster < ApplicationRecord
 	belongs_to :team
+	validates_uniqueness_of :team_id, :message => "Team can only have one Roster"
+
 	serialize :players, JSON
 	has_many :players
 
