@@ -7,11 +7,10 @@ class Team < ApplicationRecord
 	has_secure_password
 	has_one :roster, :dependent => :destroy
 
-	before_create :create_roster
+	after_create :create_roster
 
-private
-	def create_roster
-		roster = build_roster
-	end
-
+	private
+		def create_roster
+			self.create_roster!
+		end
 end

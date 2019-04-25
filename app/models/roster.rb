@@ -7,7 +7,7 @@ class Roster < ApplicationRecord
 	has_many :players
 	accepts_nested_attributes_for :players
 
-	# before_create :populate_team
+	after_create :create_players
 
 	# def starters
 	# 	self.players.select do |player|
@@ -21,11 +21,12 @@ class Roster < ApplicationRecord
 	# 	end
 	# end
 
-# private
+	private
 
-# 	def populate_team
-# 		build_players
-# 	end
-
+	def create_players
+		12.times.each do
+			self.players.create!(name: Faker::Name.name)
+		end
+	end
 end
 
