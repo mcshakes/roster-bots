@@ -1,10 +1,12 @@
 class Player < ApplicationRecord
-  belongs_to :roster
+	self.primary_key = "uuid"
+	before_save :generate_player_uuid, on: :create
+	belongs_to :roster
 
   private
 
-  def generate_player_id
-  	[*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
-  	self.update(player_id: )
+  def generate_player_uuid
+  	random_generated = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+  	self.update(uuid: random_generated) if self.uuid.nil?
   end
 end
