@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { AuthConsumer } from "../AuthContext";
 import axios from "axios";
 
-const SignUpPage = () => (
+const SignUpPage = (props) => (
 	<div>
 		<h1>Sign Up</h1>
-		<SignUpForm />
+		<SignUpForm setUserAuth={props.setUserAuth}/>
 	</div>
 )
 
@@ -13,7 +14,8 @@ const INITIAL_STATE ={
 	teamName: "",
 	email: "",
 	password: "",
-	error: null
+	error: null,
+	isAuthenticated: false
 }
 
 class SignUpForm extends React.Component {
@@ -32,8 +34,10 @@ class SignUpForm extends React.Component {
 											password: password
 										}
 		})
-		.then(newUser => {
-			this.setState({ ...INITIAL_STATE });
+		.then(res => {
+			// this.setState({ ...INITIAL_STATE });
+			console.log("SHOULD BE TOKEN", res.data)
+			this.props.setUserAuth({token: res.data.auth_token , isAuth: true})
 		})
 		.catch(error => {
 			this.setState({ error });
@@ -57,34 +61,49 @@ class SignUpForm extends React.Component {
 		const isInvalid = password === '' || email === '' || teamName === '';
 
 		return (
-			
-			<form onSubmit={this.onSubmit}>
-				<input
-		          name="teamName"
-		          value={teamName}
-		          onChange={this.onChange}
-		          type="text"
-		          placeholder="Your Team Name"
-		        />
-		        <input
-		          name="email"
-		          value={email}
-		          onChange={this.onChange}
-		          type="text"
-		          placeholder="Email Address"
-		        />
-		        <input
-		          name="password"
-		          value={password}
-		          onChange={this.onChange}
-		          type="password"
-		          placeholder="Password"
-		        />
-		        
-		        <button disabled={isInvalid} type="submit">Sign Up</button>
+	    	<AuthConsumer> 
+	    	{
+	    		({isAuth}) => {
+	    			 if (isAuth) {
+		                return <Redirect to="/admin-dashboard" />
+		              }
 
-		        {error && <p>{error.message}</p>}
-			</form>
+		              return (
+
+		              		<form onSubmit={this.onSubmit}>
+								<input
+						          name="teamName"
+						          value={teamName}
+						          onChange={this.onChange}
+						          type="text"
+						          placeholder="Your Team Name"
+						        />
+						        <input
+						          name="email"
+						          value={email}
+						          onChange={this.onChange}
+						          type="text"
+						          placeholder="Email Address"
+						        />
+						        <input
+						          name="password"
+						          value={password}
+						          onChange={this.onChange}
+						          type="password"
+						          placeholder="Password"
+						        />
+						        
+						        <button disabled={isInvalid} type="submit">Sign Up</button>
+
+						        {error && <p>{error.message}</p>}
+							</form>
+		              )
+	    			
+	    		}
+	    	}
+	    		
+	    	</AuthConsumer>
+
 		)
 	}
 }

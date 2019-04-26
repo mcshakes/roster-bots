@@ -8,7 +8,7 @@ class Roster < ApplicationRecord
 	accepts_nested_attributes_for :players
 
 	after_create :create_real_players
-	after_create :create_fantasy_players
+	# after_create :create_fantasy_players
 
 	private
 
@@ -18,10 +18,10 @@ class Roster < ApplicationRecord
 		end
 	end
 
-	def create_fantasy_players
-		50.times.each do
-			self.players.create!(name: Faker::TvShows::GameOfThrones.character)
-		end
-	end
+	# def create_fantasy_players
+	# 	50.times.each do
+	# 		self.players.create!(name: Faker::TvShows::GameOfThrones.character)
+	# 	end
+	# end
 end
 

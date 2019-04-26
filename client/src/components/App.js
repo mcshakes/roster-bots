@@ -43,7 +43,7 @@ class App extends React.Component {
 							<Route exact path="/" component={LandingPage} />
 							<Route path="/login" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
 							<Route path="/admin-dashboard" component={TeamDashboard} />
-							<Route path="/sign-up" component={SignUpPage} />
+							<Route path="/sign-up" component={() => <SignUpPage setUserAuth={this.setUserAuth} />} />
 						</Switch>
 					</AuthProvider>
 				</Router>

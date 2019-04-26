@@ -35,7 +35,6 @@ class LoginForm extends React.Component {
 		})
 		.then(res => {
 			this.props.setUserAuth({token: res.data.auth_token , isAuth: true})
-
 		})
 		.catch(error => {
 			this.setState({ error });
