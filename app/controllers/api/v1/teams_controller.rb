@@ -1,7 +1,7 @@
 module Api
 	module V1
 		class TeamsController < ApplicationController
-		  before_action :authenticate_request, except: [:create, :show]
+		  before_action :authenticate_request, except: [:create, :show, :update]
 
 			def create
 				@team = Team.new(team_params)
@@ -20,11 +20,18 @@ module Api
 				@players = @team.roster.players
 				
 				render :show
-				# render @team.as_json(include: { roster: {
-				# 								include: { :players }
-				# 								}
-											
-				# 						})
+			end
+
+			def update
+				@team = Team.find_by(id: params[:id])
+				binding.pry
+				if @team.update_attributes(team_params)
+					render json: @team,
+							status: :updated
+				else
+					render json: { errors: @team.errors.full_messages },
+							status: :unprocessable_entity
+				end
 			end
 			
 		private
