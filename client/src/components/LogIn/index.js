@@ -34,7 +34,15 @@ class LoginForm extends React.Component {
 											password: password
 		})
 		.then(res => {
-			this.props.setUserAuth({token: res.data.auth_token , isAuth: true})
+
+			let userEmail = (JSON.parse(res.config.data)).email
+			
+			this.props.setUserAuth(
+				{ token: res.data.auth_token , 
+				  isAuth: true,
+				  currentEmail: userEmail
+				}
+			)
 		})
 		.catch(error => {
 			this.setState({ error });
@@ -57,7 +65,11 @@ class LoginForm extends React.Component {
           {
             ({isAuth})=>{
               if(isAuth){
-                return <Redirect to="/admin-dashboard" />
+                return <Redirect to={{
+                					pathname: "/admin-dashboard",
+                					userData: { user: this.state }
+                				}} 
+                		/>
               }
               return (
                 	<form onSubmit={this.onSubmit}>

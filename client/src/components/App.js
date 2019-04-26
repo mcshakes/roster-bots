@@ -26,7 +26,8 @@ class App extends React.Component {
 	setUserAuth = (data) => {
 		localStorage.setItem("token", data.token)
 		this.setState({
-			isAuth: data.isAuth
+			isAuth: data.isAuth,
+			currentEmail: data.currentEmail
 		})
 	}
 
