@@ -28,7 +28,7 @@ class SignUpForm extends React.Component {
 	onSubmit = event => {
 		const { teamName, email, password} = this.state;
 		
-		axios.post("/teams", { "team": {
+		axios.post("api/v1/teams", { "team": {
 											name: teamName,
 											email: email,
 											password: password

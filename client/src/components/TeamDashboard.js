@@ -1,10 +1,8 @@
 import React from "react";
+import axios from "axios";
 
 class TeamDashboard extends React.Component {
 
-	//component loads and sees the team name /show page
-	// so team controller
-	// will have roster data
 	constructor(props) {
 		super(props)
 
@@ -30,14 +28,29 @@ class TeamDashboard extends React.Component {
 	// }
 
 
-	comoponentDidMount() {
-		
+	componentDidMount() {
+		console.log("HEY FROM DASHBOARD")
+		this.getCollection()
+	}
+
+	getCollection() {
+	  axios
+	  .get(`http://localhost:3001/api/v1/teams/?email=${this.state.currentUser}`, 
+	  {
+	  	headers: { Accept: 'application/json' },
+	  })
+	  .then(res => {
+	  	console.log(res)
+	   })
+	   .catch(error => {
+			console.log(error)
+	   })
 	}
 
 	render() {
 		return (
 			<div>
-				<h1>Should Be secret!!!</h1>
+				<h1>Be secret!!!</h1>
 			</div>
 		)
 	}	

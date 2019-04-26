@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  root "pages#index"
   
-  get "/teams", to: "teams#show"
-  post "/teams", to: "teams#create"
+ 
 
+  namespace :api do
+  	namespace :v1 do
+		get "/teams", to: "teams#show"
 
-  post "/login", to: "sessions#create"
+		resources :teams, only: [:create]
+
+		post "/login", to: "sessions#create"
+  	end
+  end
+
+  # get "*", to: "home#index"
 end
