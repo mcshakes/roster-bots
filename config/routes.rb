@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root "pages#index"
-  resources :teams
   
+  get "/teams", to: "teams#show"
+  post "/teams", to: "teams#create"
+
+
   post "/login", to: "sessions#create"
 end
