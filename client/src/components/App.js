@@ -19,12 +19,15 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			isAuth: localStorage.getItem("token") ? true: false 
+			isAuth: localStorage.getItem("token") ? true : false ,
+			currentEmail: localStorage.getItem("currentEmail") ? localStorage.getItem("currentEmail") : ""
 		}
 	}
 
 	setUserAuth = (data) => {
 		localStorage.setItem("token", data.token)
+		localStorage.setItem("currentEmail", data.currentEmail)
+		
 		this.setState({
 			isAuth: data.isAuth,
 			currentEmail: data.currentEmail
@@ -43,7 +46,7 @@ class App extends React.Component {
 						<Switch>
 							<Route exact path="/" component={LandingPage} />
 							<Route path="/login" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
-							<Route path="/admin-dashboard" component={TeamDashboard} />
+							<Route path="/admin-dashboard" component={() => <TeamDashboard email={this.state.currentEmail} /> } />
 							<Route path="/sign-up" component={() => <SignUpPage setUserAuth={this.setUserAuth} />} />
 						</Switch>
 					</AuthProvider>
