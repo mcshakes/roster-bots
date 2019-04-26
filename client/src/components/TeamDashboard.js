@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import ChangeName from "./ChangeName";
+import AvailablePlayers from "./AvailablePlayers";
+import TeamRoster from "./TeamRoster";
 
 class TeamDashboard extends React.Component {
 
@@ -83,24 +85,32 @@ class TeamDashboard extends React.Component {
 		   })
 	}
 
+
+
 	render() {
 
 		const teamName = this.state.currentUser.name;
 
 		return (
-			<div>
-				<h3>Manage Your Team Below</h3>
+			<main className="main">
+				<header className="team-header">
+					<div>
+						<h1 className="team-name">Welcome {teamName}</h1>
+						<button onClick={() => this.showNameChangeForm()}>Change Team Name</button>
+					</div>
+					<h3>Manage Your Team Below</h3>
 
-				<div>
-					<h1 className="team-name">{teamName}</h1>
-					<button onClick={() => this.showNameChangeForm()}>Change Team Name</button>
-				</div>
+					<div className="placement-name-form">
+						{this.renderForm()}
+					</div>
+				</header>
+				
+				<div className="main-cards">
+					<AvailablePlayers players={this.state.currentUser.roster} />
 
-				<div className="placement-name-form">
-					{this.renderForm()}
-				</div>
-
-			</div>
+					<TeamRoster />
+					</div>
+			</main>
 		)
 	}	
 }

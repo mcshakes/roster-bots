@@ -13,7 +13,7 @@ class Roster < ApplicationRecord
 	private
 
 	def create_real_players
-		50.times.each do
+		70.times.each do
 			self.players.create!(name: Faker::Name.name)
 		end
 	end

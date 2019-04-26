@@ -12,6 +12,7 @@ import Navigation from "./Navigation";
 import LandingPage from "./LandingPage";
 import TeamDashboard from "./TeamDashboard";
 import { AuthProvider } from './AuthContext';
+import '../styles/App.css';
 
 class App extends React.Component {
 
@@ -37,7 +38,7 @@ class App extends React.Component {
 	render() {
 
 		return (
-			<div>
+			<div className="grid-container">
 				<Router>
 					<AuthProvider value={this.state}>
 						<Navigation/>

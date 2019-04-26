@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LogOutButton from "./LogOut";
 import { AuthConsumer } from "./AuthContext";
+import '../styles/App.css';
 
 const Navigation = () => (
-	<header>
+	<header className="header-nav">
 		<AuthConsumer>
 			{({ isAuth }) => {
 		      console.log(isAuth);
@@ -16,7 +17,7 @@ const Navigation = () => (
 )
 
 const NavigationAuthenticated = () => (
-	<div>
+	<div >
 		<ul>
 			<li>
 				<Link to="/admin-dashboard">Team Dashboard</Link>
