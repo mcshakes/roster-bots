@@ -24,10 +24,9 @@ module Api
 
 			def update
 				@team = Team.find_by(id: params[:id])
-				binding.pry
+
 				if @team.update_attributes(team_params)
-					render json: @team,
-							status: :updated
+					render :show
 				else
 					render json: { errors: @team.errors.full_messages },
 							status: :unprocessable_entity

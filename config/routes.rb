@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   	namespace :v1 do
 		get "/teams", to: "teams#show"
 
-		resources :teams, only: [:create]
+		resources :teams, only: [:create, :update]
 
 		post "/login", to: "sessions#create"
   	end

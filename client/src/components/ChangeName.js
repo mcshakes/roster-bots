@@ -6,42 +6,19 @@ class ChangeName extends React.Component {
 		super(props);
 
 		this.state = { 
-			value: " ",
-			// currentUserEmail: this.props.email
-			currentUserID: this.props.currentUserID
+			value: " "
+			
 		};
 	}
 
-	updateName() {
-		axios
-		  .put(`http://localhost:3001/api/v1/teams/${this.state.currentUserID}`, 
-		  {	
-		  	team: {
-		  		name: this.state.value
-		  	},
-		  	headers: { 
-		  		Accept: 'application/json',
-		  		"Content-Type": "application/json" 
-		  	},
-		  })
-		  .then(res => {
-		  	console.log(res)
-		  	
-		   })
-		   .catch(error => {
-				console.log(error)
-		   })
-	}
-
 	handleSubmit = (event) => {
-		this.updateName();
+		this.props.handleDataUpdate(this.state.value)
 		event.preventDefault();
 	}
 
 	handleChange = (event) => {
 		this.setState({ value: event.target.value })
 	}
-
 
 	render() {
 
