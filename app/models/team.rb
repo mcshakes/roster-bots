@@ -5,6 +5,12 @@ class Team < ApplicationRecord
 	validates_uniqueness_of :email, case_sensitive: false
 
 	has_secure_password
-	has_one :roster
+	has_one :roster, :dependent => :destroy
 
+	after_create :create_roster
+
+	private
+		def create_roster
+			self.create_roster!
+		end
 end

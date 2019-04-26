@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
-  root "pages#index"
-  resources :teams
   
-  post "/login", to: "sessions#create"
+ 
+
+  namespace :api do
+  	namespace :v1 do
+		get "/teams", to: "teams#show"
+
+		resources :teams, only: [:create, :update]
+
+		post "/login", to: "sessions#create"
+  	end
+  end
+
+  # get "*", to: "home#index"
 end

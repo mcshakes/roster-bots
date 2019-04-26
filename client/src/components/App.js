@@ -19,20 +19,19 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			authUser: null
+			isAuth: localStorage.getItem("token") ? true : false ,
+			currentEmail: localStorage.getItem("currentEmail") ? localStorage.getItem("currentEmail") : ""
 		}
 	}
 
-	componentDidMount() {
-		console.log("App mounted: Refreshing, then authenticating user...")
-
-		const token = localStorage.getItem("token")
-
-		if (token) {
-			this.setState({ authUser: token, isAuth: true  })
-		} else {
-			this.setState({ authUser: token, isAuth: false })
-		}
+	setUserAuth = (data) => {
+		localStorage.setItem("token", data.token)
+		localStorage.setItem("currentEmail", data.currentEmail)
+		
+		this.setState({
+			isAuth: data.isAuth,
+			currentEmail: data.currentEmail
+		})
 	}
 
 	render() {
@@ -46,9 +45,9 @@ class App extends React.Component {
 						<hr/>
 						<Switch>
 							<Route exact path="/" component={LandingPage} />
-							<Route path="/login" component={LogInPage} />
-							<Route path="/admin-dashboard" component={TeamDashboard} />
-							<Route path="/sign-up" component={SignUpPage} />
+							<Route path="/login" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
+							<Route path="/admin-dashboard" component={() => <TeamDashboard email={this.state.currentEmail} /> } />
+							<Route path="/sign-up" component={() => <SignUpPage setUserAuth={this.setUserAuth} />} />
 						</Switch>
 					</AuthProvider>
 				</Router>

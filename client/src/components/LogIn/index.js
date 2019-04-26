@@ -4,10 +4,10 @@ import { Redirect } from "react-router-dom";
 import { SignUpLink } from '../SignUp';
 import { AuthConsumer } from "../AuthContext";
 
-const LogInPage = () => (
+const LogInPage = (props) => (
 	<div>
 		<h1>Log In</h1>
-		<LoginForm />
+		<LoginForm setUserAuth={props.setUserAuth} />
 		<SignUpLink />
 	</div>
 )
@@ -29,14 +29,20 @@ class LoginForm extends React.Component {
 	onSubmit = event => {
 		const { email, password} = this.state;
 
-		axios.post("/login", { 
+		axios.post("api/v1/login", { 
 											email: email,
 											password: password
 		})
 		.then(res => {
-			this.setState({ isAuthenticated: true })
-			localStorage.setItem("token", res.data.auth_token)
 
+			let userEmail = (JSON.parse(res.config.data)).email
+			
+			this.props.setUserAuth(
+				{ token: res.data.auth_token , 
+				  isAuth: true,
+				  currentEmail: userEmail
+				}
+			)
 		})
 		.catch(error => {
 			this.setState({ error });
@@ -50,7 +56,7 @@ class LoginForm extends React.Component {
 	}
 
 	render() {
-		const { email, password, error, isAuthenticated } = this.state;
+		const { email, password, error } = this.state;
 
 	    const isInvalid = password === '' || email === '';
 
@@ -58,8 +64,12 @@ class LoginForm extends React.Component {
 	    	<AuthConsumer>
           {
             ({isAuth})=>{
-              if(isAuth || isAuthenticated){
-                return <Redirect to="/admin-dashboard" />
+              if(isAuth){
+                return <Redirect to={{
+                					pathname: "/admin-dashboard",
+                					userData: { user: this.state }
+                				}} 
+                		/>
               }
               return (
                 	<form onSubmit={this.onSubmit}>
