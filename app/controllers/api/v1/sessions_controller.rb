@@ -15,6 +15,10 @@ module Api
 				end
 			end
 
+			def sign
+				
+			end
+
 
 		end
 	end

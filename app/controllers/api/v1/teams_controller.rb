@@ -7,8 +7,11 @@ module Api
 				@team = Team.new(team_params)
 
 				if @team.save
-					render json: @team,
-							status: :created
+					@auth_token = AuthenticateTeam.call(team_params[:email], team_params[:password]).result
+
+					# render json: @team,
+					# 		status: :created
+					render :create
 				else
 					render json: { errors: @team.errors.full_messages },
 							status: :unprocessable_entity

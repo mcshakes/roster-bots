@@ -36,11 +36,12 @@ class SignUpForm extends React.Component {
 											email: email,
 											password: password
 										}
+		}, {
+			headers: { Accept: 'application/json', "Content-Type": 'application/json' }
 		})
 		.then(res => {
-			// this.setState({ ...INITIAL_STATE });
 			console.log("SHOULD BE TOKEN", res.data)
-			this.props.setUserAuth({token: res.data.auth_token , isAuth: true})
+			this.props.setUserAuth({token: res.data.auth_token , isAuth: true, currentEmail: res.data.email})
 		})
 		.catch(error => {
 			this.setState({ error });
@@ -68,7 +69,7 @@ class SignUpForm extends React.Component {
 	    	{
 	    		({isAuth}) => {
 	    			 if (isAuth) {
-		                return <Redirect to="/admin-dashboard" />
+		                return <Redirect to={{path: "/admin-dashboard", state: {email: email}}} />
 		              }
 
 		              return (
