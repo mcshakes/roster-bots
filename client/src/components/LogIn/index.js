@@ -5,8 +5,11 @@ import { SignUpLink } from '../SignUp';
 import { AuthConsumer } from "../AuthContext";
 
 const LogInPage = (props) => (
-	<div>
-		<h1>Log In</h1>
+	<div className="log-form">
+		<header className="form-header">
+			<h1>Log In</h1>
+		</header>
+
 		<LoginForm setUserAuth={props.setUserAuth} />
 		<SignUpLink />
 	</div>
@@ -72,23 +75,27 @@ class LoginForm extends React.Component {
                 		/>
               }
               return (
-                	<form onSubmit={this.onSubmit}>
-			            <input
-		                  name="email"
-		                  value={email}
-		                  onChange={this.onChange}
-		                  type="text"
-		                  placeholder="Email Address"
-		                />
-		                <input
-		                  name="password"
-		                  value={password}
-		                  onChange={this.onChange}
-		                  type="password"
-		                  placeholder="Password"
-		                />
+                	<form onSubmit={this.onSubmit} className="login-actual-form">
+                		<div class="form-row">
+				            <input
+			                  name="email"
+			                  value={email}
+			                  onChange={this.onChange}
+			                  type="text"
+			                  placeholder="Email Address"
+			                />
+                		</div>
+                		<div class="form-row">
+			                <input
+			                  name="password"
+			                  value={password}
+			                  onChange={this.onChange}
+			                  type="password"
+			                  placeholder="Password"
+			                />
+                		</div>
 			        
-			            <button disabled={isInvalid} type="submit">Log In</button>
+			            <button className="btn" disabled={isInvalid} type="submit">Log In</button>
 
 			            {error && <p>{error.message}</p>}
 					</form>
