@@ -1,22 +1,77 @@
 import React from "react";
+import Puff from "../assets/puff.svg";
 
 class AvailablePlayers extends React.Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			players: this.props.players
+			players: props.players,
+			currentPage: 0
 		}
 	}
 
-	// renderPlayers() {
-	// 	this.state
-	// }
+
+
+	previousPage = () => {
+		if (this.state.currentPage !== 1) {
+			this.setState((prevState) => ({ currentPage: (prevState.currentPage - 1)}))
+		}
+	}
+
+	nextPage = () => {
+		if (this.state.currentPage + 1 < this.props.players.players.length) {
+			this.setState((prevState) => ({ currentPage: (prevState.currentPage + 1)}))
+		}
+	}
+
+
 
 	render() {
+
+		let returnOption;
+		const { currentPage } = this.state
+
+		const waitPlease = <div>
+			                <p id="wait-message">Loading...</p>
+			                <img src={Puff} />
+			              </div>
+
+		if (this.props.players === undefined) {
+			returnOption = waitPlease 
+		} else {
+
+			const allPlayers = this.props.players.players
+
+			// console.log(allPlayers.slice((0 * 10), 10))	
+
+			let returnOption = (
+				<div>
+					<table>
+						{allPlayers.slice((currentPage * 10), ((currentPage + 1) * 10)).map(player => {
+							return (<tr>
+										<td>{player.name}</td>
+										<td>{player.strength}</td>
+										<td>{player.agility}</td>
+										<td>{player.speed}</td>
+									</tr>)
+						})}
+					</table>
+					<button onClick={this.previousPage}>Previous Players</button>
+					<button onClick={this.nextPage}>Next Players</button>
+				</div>
+
+			)
+
+			return returnOption
+
+		}
+
 		return (
 			<div className="available-pool">
 				<h1>AvailablePlayers Portion</h1>
+
+				{returnOption}
 			</div>
 		)
 	}	

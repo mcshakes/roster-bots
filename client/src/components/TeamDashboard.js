@@ -12,7 +12,8 @@ class TeamDashboard extends React.Component {
 		this.state = {
 			currentUserEmail: this.props.email,
 			currentUser: "",
-			showChangeForm: false
+			showChangeForm: false,
+			selectedPlayers: []
 		}
 	}
 
@@ -108,8 +109,8 @@ class TeamDashboard extends React.Component {
 				<div className="main-cards">
 					<AvailablePlayers players={this.state.currentUser.roster} />
 
-					<TeamRoster />
-					</div>
+					<TeamRoster players={this.state.currentUser.roster} />
+				</div>
 			</main>
 		)
 	}	
