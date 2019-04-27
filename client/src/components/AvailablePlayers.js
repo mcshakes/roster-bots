@@ -7,7 +7,8 @@ class AvailablePlayers extends React.Component {
 
 		this.state = {
 			players: props.players,
-			currentPage: 0
+			currentPage: 0,
+			selectedPlayers: []
 		}
 	}
 
@@ -22,6 +23,14 @@ class AvailablePlayers extends React.Component {
 	nextPage = () => {
 		if (this.state.currentPage + 1 < this.props.players.players.length) {
 			this.setState((prevState) => ({ currentPage: (prevState.currentPage + 1)}))
+		}
+	}
+
+	addPlayer = (player) => {
+		const { onPlayerSelect } = this.props
+
+		if (onPlayerSelect) {
+			onPlayerSelect(player)
 		}
 	}
 
@@ -43,17 +52,18 @@ class AvailablePlayers extends React.Component {
 
 			const allPlayers = this.props.players.players
 
-			// console.log(allPlayers.slice((0 * 10), 10))	
 
 			let returnOption = (
 				<div>
 					<table>
-						{allPlayers.slice((currentPage * 10), ((currentPage + 1) * 10)).map(player => {
-							return (<tr>
+						{allPlayers.slice((currentPage * 10), ((currentPage + 1) * 10)).map((player, idx) => {
+							return (<tr key={idx}>
 										<td>{player.name}</td>
 										<td>{player.strength}</td>
 										<td>{player.agility}</td>
 										<td>{player.speed}</td>
+										<button onClick={() => this.addPlayer(player)}> + </button>
+
 									</tr>)
 						})}
 					</table>

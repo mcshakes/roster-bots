@@ -86,7 +86,33 @@ class TeamDashboard extends React.Component {
 		   })
 	}
 
+	handlePlayerSelection = (playerObject) => {
+		const players = this.state.selectedPlayers
 
+		console.log(this.state.currentUser)
+
+		if (players) {
+			players.push(playerObject)
+
+			let rosterPlayers = this.state.currentUser.roster.players
+
+			if (rosterPlayers) {
+				console.log('filter')
+				rosterPlayers = rosterPlayers.filter((player) => player.uuid !== playerObject.uuid)
+			}
+
+			this.setState({
+				currentUser: {
+					...this.state.currentUser,
+					roster: {
+						players: rosterPlayers
+					}
+				},
+				selectedPlayers: players
+			})
+		}
+
+	}
 
 	render() {
 
@@ -107,9 +133,11 @@ class TeamDashboard extends React.Component {
 				</header>
 				
 				<div className="main-cards">
-					<AvailablePlayers players={this.state.currentUser.roster} />
+					<AvailablePlayers
+						onPlayerSelect={this.handlePlayerSelection}
+						players={this.state.currentUser.roster} />
 
-					<TeamRoster players={this.state.currentUser.roster} />
+					<TeamRoster players={this.state.selectedPlayers} />
 				</div>
 			</main>
 		)

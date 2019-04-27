@@ -4,11 +4,21 @@ class TeamRoster extends React.Component {
 
 
 	render() {
-
+		const { players } = this.props;
 		return (
 			<div className="roster">
-				<div className="starters"></div>
-				<div className="alternates"></div>
+				<div className="starters">
+					{players && players.map((player) => {
+						return (
+							<div>
+								{player.name}
+							</div>
+						)
+					})}
+				</div>
+				<div className="alternates">
+					
+				</div>
 			</div>
 		)
 	}	
