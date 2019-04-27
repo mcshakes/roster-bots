@@ -4,8 +4,11 @@ import { AuthConsumer } from "../AuthContext";
 import axios from "axios";
 
 const SignUpPage = (props) => (
-	<div>
-		<h1>Sign Up</h1>
+	<div className="log-form">
+		<header className="form-header">
+			<h1>Sign Up</h1>
+		</header>
+		
 		<SignUpForm setUserAuth={props.setUserAuth}/>
 	</div>
 )
@@ -70,32 +73,43 @@ class SignUpForm extends React.Component {
 
 		              return (
 
-		              		<form onSubmit={this.onSubmit}>
-								<input
-						          name="teamName"
-						          value={teamName}
-						          onChange={this.onChange}
-						          type="text"
-						          placeholder="Your Team Name"
-						        />
-						        <input
-						          name="email"
-						          value={email}
-						          onChange={this.onChange}
-						          type="text"
-						          placeholder="Email Address"
-						        />
-						        <input
-						          name="password"
-						          value={password}
-						          onChange={this.onChange}
-						          type="password"
-						          placeholder="Password"
-						        />
-						        
-						        <button disabled={isInvalid} type="submit">Sign Up</button>
+		              		<form onSubmit={this.onSubmit} className="signup-actual-form">
 
-						        {error && <p>{error.message}</p>}
+		              			<div class="form-row">
+									<input
+							          name="teamName"
+							          value={teamName}
+							          onChange={this.onChange}
+							          type="text"
+							          placeholder="Your Team Name"
+							        />
+
+		              			</div>
+
+		              			<div class="form-row">
+							        <input
+							          name="email"
+							          value={email}
+							          onChange={this.onChange}
+							          type="text"
+							          placeholder="Email Address"
+							        />
+
+		              			</div>
+
+		              			<div class="form-row">
+							        <input
+							          name="password"
+							          value={password}
+							          onChange={this.onChange}
+							          type="password"
+							          placeholder="Password"
+							        />
+		              			</div>
+						        
+						        <button className="btn" disabled={isInvalid} type="submit">Sign Up</button>
+
+						        {error && <p className="errors">{error.message}</p>}
 							</form>
 		              )
 	    			

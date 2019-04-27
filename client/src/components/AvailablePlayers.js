@@ -54,7 +54,7 @@ class AvailablePlayers extends React.Component {
 
 
 			let returnOption = (
-				<div>
+				<div className="available-pool">
 					<table>
 						<tbody>
 							<thead>
@@ -88,8 +88,7 @@ class AvailablePlayers extends React.Component {
 		}
 
 		return (
-			<div className="available-pool">
-				<h1>AvailablePlayers Portion</h1>
+			<div>
 
 				{returnOption}
 			</div>

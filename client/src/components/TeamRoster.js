@@ -35,20 +35,32 @@ class TeamRoster extends React.Component {
 
 		return (
 			<div className="roster">
-				<div className="starters">
-				     {players && players.map((player, key) => {
-				             return (
-				                     <div key={player.uuid}>
-				                            {player.name}
-				                     </div>
-				            )
-				    })}
-			     </div>
+				{players && players.map((player, key) => {
+					count++
 
-			     <div className="alternates">
+					if (count <= 10) {
+			             return (
+							<div className="starter">
+			                     <div key={player.uuid}>
+			                       {player.name} {player.strength} {player.agility} {player.speed}
+			                     </div>
+						     </div>
+			            )
 
-			     </div>
-				
+					} else {
+
+						return (							
+							<div className="alternates">
+								<div key={player.uuid}>
+				                       {player.name} {player.strength} {player.agility} {player.speed}
+				                 </div>
+						    </div>
+						)
+						
+					}
+					
+			    })}
+
 			</div>
 		)
 	}	
