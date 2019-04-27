@@ -96,8 +96,8 @@ class LoginForm extends React.Component {
                 		</div>
 			        
 			            <button className="btn" disabled={isInvalid} type="submit">Log In</button>
-
-			            {error && <p>{error.message}</p>}
+						
+			            {error && <p className="errors">{error.message}</p>}
 					</form>
               )
             }

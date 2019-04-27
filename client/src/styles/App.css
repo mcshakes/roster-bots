@@ -120,6 +120,7 @@ body {
   font-size: 30px;
 }
 
+.signup-actual-form,
 .login-actual-form {
   background-color: #F6F7F8;
   border: 1px solid #D6D9DC;
@@ -137,7 +138,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
 }
-
+.form-row input[type='password'],
 .form-row input[type='text'] {
   background-color: #FFFFFF;
   border: 1px solid #D6D9DC;
@@ -145,6 +146,13 @@ body {
   width: 100%;
   padding: 7px;
   font-size: 14px;
+}
+
+.form-row input[type='text']:invalid,
+.form-row input[type='email']:invalid {
+  border: 1px solid #D55C5F;
+  color: #D55C5F;
+  box-shadow: none; /* Remove default red glow in Firefox */
 }
 
 .form-row label {
@@ -161,6 +169,8 @@ body {
     align-items: flex-start; /* To avoid stretching */
     margin-bottom: 20px;
   }
+
+  .form-row input[type='password'],
   .form-row input[type='text'] {
     width: 250px;
     height: initial;
@@ -171,4 +181,32 @@ body {
     margin-top: 7px;
     padding-right: 20px;
   }
+}
+
+.errors {
+  color: #D55C5F;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.btn {
+  font-size: 16px;
+  font-weight: bold;
+
+  color: #FFFFFF;
+  background-color: #5995DA;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 10px 40px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #76AEED;
+}
+
+.btn:active {
+  background-color: #407FC7;
 }
