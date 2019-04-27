@@ -9,7 +9,6 @@ import {
 import SignUpPage from "./SignUp";
 import LogInPage from "./LogIn";
 import Navigation from "./Navigation";
-import LandingPage from "./LandingPage";
 import TeamDashboard from "./TeamDashboard";
 import { AuthProvider } from './AuthContext';
 import '../styles/App.css';
@@ -45,8 +44,7 @@ class App extends React.Component {
 
 						<hr/>
 						<Switch>
-							<Route exact path="/" component={LandingPage} />
-							<Route path="/login" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
+							<Route exact path="/" component={() => <LogInPage setUserAuth={this.setUserAuth} />} />
 							<Route path="/admin-dashboard" component={() => <TeamDashboard email={this.state.currentEmail} /> } />
 							<Route path="/sign-up" component={() => <SignUpPage setUserAuth={this.setUserAuth} />} />
 						</Switch>

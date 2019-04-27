@@ -9,7 +9,7 @@ const LogOutButton = (e) => (
 
 const logOut = () => {
 	localStorage.removeItem("token");
-	window.location.href = "/login";
+	window.location.href = "/";
 }
 
 export default LogOutButton;

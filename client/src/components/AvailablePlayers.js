@@ -56,16 +56,26 @@ class AvailablePlayers extends React.Component {
 			let returnOption = (
 				<div>
 					<table>
-						{allPlayers.slice((currentPage * 10), ((currentPage + 1) * 10)).map((player, idx) => {
-							return (<tr key={idx}>
-										<td>{player.name}</td>
-										<td>{player.strength}</td>
-										<td>{player.agility}</td>
-										<td>{player.speed}</td>
-										<button onClick={() => this.addPlayer(player)}> + </button>
+						<tbody>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Strength</th>
+									<th>Agility</th>
+									<th>Speed</th>
+								</tr>
+							</thead>
+							{allPlayers.slice((currentPage * 10), ((currentPage + 1) * 10)).map((player, idx) => {
+								return (<tr key={player.uuid}>
+											<td>{player.name}</td>
+											<td>{player.strength}</td>
+											<td>{player.agility}</td>
+											<td>{player.speed}</td>
+											<button onClick={() => this.addPlayer(player)}> + </button>
 
-									</tr>)
-						})}
+										</tr>)
+							})}
+						</tbody>
 					</table>
 					<button onClick={this.previousPage}>Previous Players</button>
 					<button onClick={this.nextPage}>Next Players</button>

@@ -5,7 +5,7 @@ import { AuthConsumer } from "./AuthContext";
 import '../styles/App.css';
 
 const Navigation = () => (
-	<header className="header-nav">
+	<header className="header-container">
 		<AuthConsumer>
 			{({ isAuth }) => {
 		      console.log(isAuth);
@@ -17,13 +17,10 @@ const Navigation = () => (
 )
 
 const NavigationAuthenticated = () => (
-	<div >
+	<div className="header-nav">
 		<ul>
 			<li>
 				<Link to="/admin-dashboard">Team Dashboard</Link>
-			</li>
-			<li>
-				<Link to="/">Back to Home</Link>
 			</li>
 			<li>
 				<LogOutButton />
@@ -33,13 +30,10 @@ const NavigationAuthenticated = () => (
 )
 
 const NavigationNonAuthenticated = () => (
-	<div>
+	<div className="header-nav">
 		<ul>
 			<li>
-				<Link to="/login">Manager Log In</Link>
-			</li>
-			<li>
-				<Link to="/">Back to Home</Link>
+				<Link to="/">Manager Log In</Link>
 			</li>
 		</ul>
 	</div>

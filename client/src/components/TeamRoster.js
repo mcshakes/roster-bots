@@ -8,9 +8,9 @@ class TeamRoster extends React.Component {
 		return (
 			<div className="roster">
 				<div className="starters">
-					{players && players.map((player) => {
+					{players && players.map((player, key) => {
 						return (
-							<div>
+							<div key={player.uuid}>
 								{player.name}
 							</div>
 						)
