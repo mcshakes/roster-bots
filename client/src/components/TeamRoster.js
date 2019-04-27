@@ -42,18 +42,17 @@ class TeamRoster extends React.Component {
 			             return (
 							<div className="starter">
 			                     <div key={player.uuid}>
-			                       {player.name}
+			                       {player.name} {player.strength} {player.agility} {player.speed}
 			                     </div>
 						     </div>
 			            )
 
 					} else {
 
-						return (
-
+						return (							
 							<div className="alternates">
 								<div key={player.uuid}>
-				                       {player.name}
+				                       {player.name} {player.strength} {player.agility} {player.speed}
 				                 </div>
 						    </div>
 						)
