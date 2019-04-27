@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import ChangeName from "./ChangeName";
+import AvailablePlayers from "./AvailablePlayers";
+import TeamRoster from "./TeamRoster";
 
 class TeamDashboard extends React.Component {
 
@@ -10,7 +12,8 @@ class TeamDashboard extends React.Component {
 		this.state = {
 			currentUserEmail: this.props.email,
 			currentUser: "",
-			showChangeForm: false
+			showChangeForm: false,
+			selectedPlayers: []
 		}
 	}
 
@@ -83,24 +86,60 @@ class TeamDashboard extends React.Component {
 		   })
 	}
 
+	handlePlayerSelection = (playerObject) => {
+		const players = this.state.selectedPlayers
+
+		console.log(this.state.currentUser)
+
+		if (players) {
+			players.push(playerObject)
+
+			let rosterPlayers = this.state.currentUser.roster.players
+
+			if (rosterPlayers) {
+				console.log('filter')
+				rosterPlayers = rosterPlayers.filter((player) => player.uuid !== playerObject.uuid)
+			}
+
+			this.setState({
+				currentUser: {
+					...this.state.currentUser,
+					roster: {
+						players: rosterPlayers
+					}
+				},
+				selectedPlayers: players
+			})
+		}
+
+	}
+
 	render() {
 
 		const teamName = this.state.currentUser.name;
 
 		return (
-			<div>
-				<h3>Manage Your Team Below</h3>
+			<main className="main">
+				<header className="team-header">
+					<div>
+						<h1 className="team-name">Welcome {teamName}</h1>
+						<button onClick={() => this.showNameChangeForm()}>Change Team Name</button>
+					</div>
+					<h3>Manage Your Team Below</h3>
 
-				<div>
-					<h1 className="team-name">{teamName}</h1>
-					<button onClick={() => this.showNameChangeForm()}>Change Team Name</button>
+					<div className="placement-name-form">
+						{this.renderForm()}
+					</div>
+				</header>
+				
+				<div className="main-cards">
+					<AvailablePlayers
+						onPlayerSelect={this.handlePlayerSelection}
+						players={this.state.currentUser.roster} />
+
+					<TeamRoster players={this.state.selectedPlayers} />
 				</div>
-
-				<div className="placement-name-form">
-					{this.renderForm()}
-				</div>
-
-			</div>
+			</main>
 		)
 	}	
 }

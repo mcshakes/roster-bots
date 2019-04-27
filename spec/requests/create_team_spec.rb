@@ -4,7 +4,7 @@ RSpec.describe "Team Creation", :type => :request do
 	
 	it "creates a Team" do
 		headers = { "CONTENT_TYPE" => "application/json" }
-		post "/teams", :params => '{ "team": { "name": "My SuperTeam", "email": "SuperTeam@gmail.com", "password": "password123" } }', :headers => headers
+		post "/api/v1/teams", :params => '{ "team": { "name": "My SuperTeam", "email": "SuperTeam@gmail.com", "password": "password123" } }', :headers => headers
 		
 		expect(response.content_type).to eq("application/json")
 	    expect(response).to have_http_status(:created)

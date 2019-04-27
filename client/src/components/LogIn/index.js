@@ -73,25 +73,25 @@ class LoginForm extends React.Component {
               }
               return (
                 	<form onSubmit={this.onSubmit}>
-		            <input
-                  name="email"
-                  value={email}
-                  onChange={this.onChange}
-                  type="text"
-                  placeholder="Email Address"
-                />
-                <input
-                  name="password"
-                  value={password}
-                  onChange={this.onChange}
-                  type="password"
-                  placeholder="Password"
-                />
-		        
-		            <button disabled={isInvalid} type="submit">Log In</button>
+			            <input
+		                  name="email"
+		                  value={email}
+		                  onChange={this.onChange}
+		                  type="text"
+		                  placeholder="Email Address"
+		                />
+		                <input
+		                  name="password"
+		                  value={password}
+		                  onChange={this.onChange}
+		                  type="password"
+		                  placeholder="Password"
+		                />
+			        
+			            <button disabled={isInvalid} type="submit">Log In</button>
 
-		            {error && <p>{error.message}</p>}
-			      </form>
+			            {error && <p>{error.message}</p>}
+					</form>
               )
             }
           }
