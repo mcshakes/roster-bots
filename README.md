@@ -9,3 +9,5 @@
 6) Within that very same client folder, run `yarn --cwd client start` or `npm start`
 7) This should automatically open a browser and take you to login/root page
 
+## Test Instructions:
+1) Run `rspec` at the root of the project
