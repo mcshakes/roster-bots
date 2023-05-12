@@ -14,3 +14,7 @@
 
 ## Test Instructions:
 1) Run `rspec` at the root of the project
+
+
+## CI
+- On Gitlab CI hopefully
