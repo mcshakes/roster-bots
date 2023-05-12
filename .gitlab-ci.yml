@@ -11,3 +11,4 @@ test-job:
   stage: test
   script:
     - echo "This job tests something"
+    - exit 1
