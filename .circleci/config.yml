@@ -3,14 +3,12 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/ruby:2.7.4-node-browsers
+      - image: cimg/ruby:2.7-node
 
 jobs:
   build:
     executor: default
-
     working_directory: ~/project
-
     steps:
       - checkout
 
@@ -33,15 +31,33 @@ jobs:
       - restore_cache:
           key: dependencies-{{ checksum "Gemfile.lock" }}
           paths:
-            - vendor/bundle
-      
-
-      - run:
-          name: Run tests
-          command: bundle exec rspec
+            - vendor/bundle      
+  test:
+    # parallelism: 3
+    docker:
+      - image: cimg/ruby:2.7-node
+      - image: circleci/postgres:9.5-alpine
+        environment:
+          # POSTGRES_USER: test_user
+          POSTGRES_DB: roster-bots_test
+          # POSTGRES_PASSWORD: ""
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      PGUSER: test-user
+      PGPASSWORD: ""
+      RAILS_ENV: test
+    - run:
+        name: Run tests
+        command: bundle exec rspec
+    
 
 workflows:
   version: 2
-  build_and_deploy:
+  build_and_test:
     jobs:
       - build
+      - test:
+        requires:
+          - build
