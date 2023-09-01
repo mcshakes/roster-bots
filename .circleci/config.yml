@@ -13,7 +13,7 @@ jobs:
           RAILS_ENV: test
       - image: circleci/postgres:11 # database image
         environment: 
-          POSTGRES_USER: test_user
+          POSTGRES_USER: postgres
           POSTGRES_DB: roster-bots_test
           POSTGRES_PASSWORD: "password"
     steps: 
