@@ -1,65 +1,55 @@
 version: 2.1
-
-executors:
-  default:
-    docker:
-      - image: cimg/ruby:2.7-node
-
-jobs:
-  build:
-    executor: default
-    working_directory: ~/project
-    steps:
+jobs: 
+  build: 
+    parallelism: 1 # run three instances of this job in parallel
+    docker: 
+      - image: cimg/ruby:2.7-node 
+        environment: # environment variables for primary container
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+      - image: circleci/postgres:11 # database image
+        environment: 
+          # POSTGRES_USER: [your_pg_user]
+          POSTGRES_DB: roster-bots_test
+          # POSTGRES_PASSWORD: [your_pg_db_name]
+    steps: 
       - checkout
 
       - run:
-          name: Install Bundler
-          command: gem install bundler -v 2.1.4
+          name: Which bundler?
+          command: bundle -v
 
-      # Restore bundle cache
       - restore_cache:
-          keys:
-          - dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
-
-      - run:
-          name: Install dependencies
-          command: bundle install
-      
-      # Save bundle cache
-      - restore_cache:
+          keys: 
+            - dependencies-{{ checksum "Gemfile.lock" }}
+            - dependencies-
+      - run: 
+          name: Bundle Install
+          command: bundle check --path vendor/bundle || bundle install
+      - save_cache:
           key: dependencies-{{ checksum "Gemfile.lock" }}
           paths:
-            - vendor/bundle      
-  test:
-    parallelism: 3
-    docker:
-      - image: cimg/ruby:2.7-node
-      - image: circleci/postgres:9.5-alpine
-        environment:
-          # POSTGRES_USER: test_user
-          POSTGRES_DB: roster-bots_test
-          # POSTGRES_PASSWORD: ""
-    environment:
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
-      PGHOST: 127.0.0.1
-      PGUSER: test_user
-      PGPASSWORD: ""
-      RAILS_ENV: test
-    
-    steps:
+            - vendor/bundle
+            
       - run:
-          name: Run tests
-          command: bundle exec rspec
-    
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test:
-        requires:
-          - build
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      # Save test results for timing analysis
+      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: test_results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
