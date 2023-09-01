@@ -33,7 +33,7 @@ jobs:
           paths:
             - vendor/bundle      
   test:
-    # parallelism: 3
+    parallelism: 3
     docker:
       - image: cimg/ruby:2.7-node
       - image: circleci/postgres:9.5-alpine
