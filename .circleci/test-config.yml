@@ -38,9 +38,9 @@ jobs:
       - image: cimg/ruby:2.7-node
       - image: circleci/postgres:9.5-alpine
         environment:
-          # POSTGRES_USER: test_user
+          POSTGRES_USER: test_user
           POSTGRES_DB: roster-bots_test
-          # POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ""
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
